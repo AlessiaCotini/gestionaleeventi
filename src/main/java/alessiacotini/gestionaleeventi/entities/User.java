@@ -41,11 +41,11 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, Role role) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = Role.USER;
+        this.role = role;
     }
 
     @Override
@@ -57,4 +57,5 @@ public class User implements UserDetails {
     public String getUsername() {
         return this.username;
     }
+
 }
