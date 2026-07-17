@@ -55,5 +55,14 @@ public class BookingService {
         return this.bookingRepository.findByUserId(userId);
     }
 
+    public void findByIdAndDelete(UUID bookingId, UUID userId){
+        User trovato = this.userRepository.findById(userId).orElseThrow();
+        Booking prenotazioneEsistente = this.bookingRepository.findById(bookingId).orElseThrow();
+        if(trovato.getUserId() == userId && prenotazioneEsistente.getBookingId() == bookingId){
+            bookingRepository.delete(prenotazioneEsistente);
+        }
+
+    }
+
 
 }
