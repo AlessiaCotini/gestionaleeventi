@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -39,6 +40,9 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "userId" , nullable = false)
     private User organizer;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Booking> bookings;
 
     public Event(String title, String description, LocalDate date, String location, Integer max_people, User organizer) {
         this.title = title;

@@ -48,7 +48,7 @@ public class EventController {
     }
 
     // http://localhost:3001/events/{eventId} - modifica evento - solo org - body
-    //    {
+//        {
 //     "title": "Bob Dylan in Italia",
 //     "description": "Un incredibile concerto dal vivo",
 //     "date": "2026-09-18",
@@ -63,7 +63,7 @@ public class EventController {
     // http://localhost:3001/events/{eventId} - eliminazione evento - solo org
     @DeleteMapping("/{eventId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEvent(@PathVariable UUID id, @AuthenticationPrincipal User currentUser) {
-        this.eventService.findByIdAndDelete(id, currentUser.getUserId());
+    public void deleteEvent(@PathVariable UUID eventId, @AuthenticationPrincipal User currentUser) {
+        this.eventService.findByIdAndDelete(eventId, currentUser.getUserId());
     }
 }

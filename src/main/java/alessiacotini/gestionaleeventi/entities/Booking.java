@@ -14,7 +14,7 @@ import java.util.UUID;
 @ToString
 @Getter
 @Setter
-@Table(name = "prenotazioni")
+@Table(name = "bookings")
 public class Booking {
 
     @Id

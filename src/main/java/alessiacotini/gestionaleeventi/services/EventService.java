@@ -2,6 +2,7 @@ package alessiacotini.gestionaleeventi.services;
 
 import alessiacotini.gestionaleeventi.entities.Event;
 import alessiacotini.gestionaleeventi.entities.User;
+import alessiacotini.gestionaleeventi.enums.Role;
 import alessiacotini.gestionaleeventi.exceptions.NotFound;
 import alessiacotini.gestionaleeventi.exceptions.Unauthorized;
 import alessiacotini.gestionaleeventi.payloads.EventDTO;
@@ -34,7 +35,7 @@ public class EventService {
     public Event save(EventDTO body, UUID organizerId) {
         User organizzatore = this.userService.findById(organizerId);
 
-        if (!organizzatore.getRole().equals("ORGANIZER")) {
+        if (!organizzatore.getRole().equals(Role.ORGANIZER)) {
             throw new Unauthorized("Solo gli organizzatori possono creare eventi");
         }
 

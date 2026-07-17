@@ -5,6 +5,7 @@ import alessiacotini.gestionaleeventi.entities.Event;
 import alessiacotini.gestionaleeventi.entities.User;
 import alessiacotini.gestionaleeventi.exceptions.BadRequest;
 import alessiacotini.gestionaleeventi.exceptions.NotFound;
+import alessiacotini.gestionaleeventi.exceptions.OverBooking;
 import alessiacotini.gestionaleeventi.repositories.BookingRepository;
 import alessiacotini.gestionaleeventi.repositories.EventRepository;
 import alessiacotini.gestionaleeventi.repositories.UserRepository;
@@ -34,7 +35,7 @@ public class BookingService {
         long prenotazioniAttuali = this.bookingRepository.countByEventId(eventId);
 
         if (prenotazioniAttuali >= evento.getMax_people()) {
-            throw new BadRequest("Spiacenti, i posti per questo evento sono esauriti!");
+            throw new OverBooking("Spiacenti, i posti per questo evento sono esauriti!");
         }
         boolean giaPrenotato = this.bookingRepository.existsByUserIdAndEventId(userId, eventId);
         if (giaPrenotato) {

@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface BookingRepository extends JpaRepository<Booking, UUID> {
 
     // prenotazioni per un evento
-    @Query(value = "SELECT COUNT(*) FROM bookings WHERE event_id = :eventId", nativeQuery = true)
+    @Query("SELECT COUNT(b) FROM Booking b WHERE b.event.id = :eventId")
     long countByEventId(@Param("eventId") UUID eventId);
 
     // prenotazioni di uno specifico utente
