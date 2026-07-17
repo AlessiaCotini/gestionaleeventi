@@ -23,7 +23,7 @@ public class AuthController {
 
     // http://localhost:3001/auth/register - registrazione - nessuna autorizzazione ma body
 //     {
-//     "name": "Hermione Granger",
+//     "username": "Hermione Granger",
 //     "email": "hermione@granger.com",
 //     "password": "465ab8a8-b840-4876-9443-ca8f6bbdcdfe",
 //     "role": "ORGANIZER"

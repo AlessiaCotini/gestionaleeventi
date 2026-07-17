@@ -18,7 +18,6 @@ public class UserController {
         this.userService = usersService;
     }
 
-
     // http://localhost:3001/utenti - crea utente - auth organizer - + body
 //     {
 //     "name": "Harry Potter",

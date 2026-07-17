@@ -8,10 +8,12 @@ import alessiacotini.gestionaleeventi.exceptions.NotFound;
 import alessiacotini.gestionaleeventi.repositories.BookingRepository;
 import alessiacotini.gestionaleeventi.repositories.EventRepository;
 import alessiacotini.gestionaleeventi.repositories.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class BookingService {
 
     private final BookingRepository bookingRepository;
@@ -29,7 +31,7 @@ public class BookingService {
         Event evento = this.eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFound("Evento non trovato"));
 
-        int prenotazioniAttuali = this.bookingRepository.countByEventId(eventId);
+        long prenotazioniAttuali = this.bookingRepository.countByEventId(eventId);
 
         if (prenotazioniAttuali >= evento.getMax_people()) {
             throw new BadRequest("Spiacenti, i posti per questo evento sono esauriti!");

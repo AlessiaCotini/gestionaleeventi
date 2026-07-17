@@ -28,46 +28,42 @@ public class TokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        String authorizationHeader = request.getHeader("Authorization");
+
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
-            // ATTRAVERSO LA RICHIESTA GESTISCO IL TOKEN
-
-            String authorizationHeader = request.getHeader("Authorization");
-
-            // CHE NON SIA NULLO, CHE INIZI CON IL FORMATO CORRETTO
-            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer "))
-                throw new RuntimeException("Controlla il formato : Bearer ");
-
             // ESTRAPOLO IL TOKEN
             String accessToken = authorizationHeader.replace("Bearer ", "");
 
             // VERIFICO IL TOKEN
             this.jwtTools.verificoToken(accessToken);
 
-            //AUTHORIZATION - associo user a context
-
+            // AUTHORIZATION - associo user a context
             UUID userId = this.jwtTools.checkIdDalToken(accessToken);
-
             User autenticato = this.userService.findById(userId);
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(autenticato, null , autenticato.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // ARRIVO AL CONTROLLER
-
             filterChain.doFilter(request, response);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e + "ERRORE NEL FILTRO DEL TOKEN");
-        }
 
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"Token non valido\"}");
+        }
     }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-
-        // SPECIFICO QUANDO IL FILTRO NON DEVE INTERVENIRE QUINDI SIA LOGIN CHE REGISTRAZIONE
-        // GENERALE SU CIO' CHE E' DOPO AUTORIZZAZZIONE
-
-        return new AntPathMatcher().match("/authorization/**", request.getServletPath());
+        // Ritorna true se l'endpoint corrente fa parte delle rotte di autenticazione/pubbliche
+        return new AntPathMatcher().match("/auth/**", request.getServletPath());
     }
 }
 
