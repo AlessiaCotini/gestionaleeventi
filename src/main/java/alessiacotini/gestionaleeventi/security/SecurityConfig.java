@@ -37,7 +37,7 @@ public class SecurityConfig {
 
         //ELIMINO I CONTROLLI AUTOMATICI DI SPRING SECURITY - quindi poi non interverrà sulle richieste
 
-        httpSecurity.authorizeHttpRequests(req -> req.requestMatchers("/auth/**").permitAll());
+        httpSecurity.authorizeHttpRequests(req -> req.requestMatchers("/**").permitAll());
 
         //IMPLEMENTO I MIEI CONTROLLI BASATI SUI TOKEN
 
